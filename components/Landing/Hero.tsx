@@ -18,7 +18,7 @@ type cardContent = {
 
 const CardIcon = ({ icon }: { icon: React.ReactNode }) => {
   return (
-    <div className="size-12 mx-auto mb-4 flex items-center justify-center">
+    <div className="size-12 mx-auto mb-4 p-2 bg-rose-100 dark:bg-gray-800 flex items-center justify-center rounded-sm">
       {React.isValidElement(icon)
         ? React.cloneElement(icon, {
             className: "text-rose-600 size-12",
@@ -58,9 +58,7 @@ export const Hero = () => {
               Powered by AI
             </Badge>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
-            AI-Powered PDF Summarizer
-          </h1>
+          <h1 className="leading-tight">AI-Powered PDF Summarizer</h1>
           <p className="mt-6 text-lg sm:text-xl md:text-2xl">
             Effortlessly summarize your PDF documents using cutting-edge AI
             technology. Save time, stay productive.
@@ -68,8 +66,8 @@ export const Hero = () => {
         </div>
         <div className="w-full flex justify-center mt-10">
           <NavLink href="/trial">
-            <Button className="text-white bg-gradient-to-r from-rose-600 to-black px-16 py-6 text-2xl flex items-center gap-2 transition-all duration-500 hover:from-black hover:to-rose-600 rounded-full">
-              Try Summarry <ArrowRight className="size-6" />
+            <Button className="text-white bg-gradient-to-r from-rose-600 to-black px-16 py-6 text-lg flex items-center gap-2 transition-all duration-500 hover:from-black hover:to-rose-600 rounded-full">
+              Try SummaAI <ArrowRight className="size-6" />
             </Button>
           </NavLink>
         </div>
@@ -77,12 +75,12 @@ export const Hero = () => {
 
       <section className="py-16">
         <div className="container text-center">
-          <h2 className="text-3xl font-bold mb-8">Why Choose Summarry?</h2>
+          <h2 className="text-3xl font-bold mb-8">Why Choose SummaAI?</h2>
           <div className="flex flex-col md:flex-row justify-center items-center gap-8">
             {cards.map((card) => (
               <div
                 key={card.title}
-                className="max-w-sm p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg"
+                className="max-w-sm p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:border hover:border-rose-600 transition-all duration-500"
               >
                 <CardIcon icon={card.icon} />
                 <h3 className="text-xl font-semibold">{card.title}</h3>

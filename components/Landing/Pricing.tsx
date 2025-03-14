@@ -15,25 +15,22 @@ const pricingCards: PricingCardContent[] = [
   {
     title: "Basic",
     price: "$9.99/month",
-    features: [
-      "5 PDF Summaries/Month",
-      "AI-Powered Summaries",
-      "Basic Summaries"
-    ],
+    features: ["5 PDF Summaries/Month", "Basic Summaries", "Email Support"],
     buttonText: "Get Basic",
-    isHighlighted: false
+    isHighlighted: false,
   },
   {
     title: "Pro",
     price: "$29.99/month",
     features: [
       "50 PDF Summaries/Month",
-      "AI-Powered Insights",
-      "Priority Support"
+      "Pro Summaries",
+      "Access to advanced models",
+      "Priority Support",
     ],
     buttonText: "Get Pro",
-    isHighlighted: true
-  }
+    isHighlighted: true,
+  },
 ];
 
 export const Pricing = () => {
@@ -49,15 +46,18 @@ export const Pricing = () => {
 
         <div className="flex flex-col md:flex-row justify-center items-center gap-8">
           {pricingCards.map((card) => (
-            <Card 
+            <Card
               key={card.title}
-              className={`max-w-sm p-8 ${card.isHighlighted 
-                ? "bg-gradient-to-br from-rose-200 to-gray-200 dark:from-gray-700 dark:to-gray-900 border-2 border-rose-600 shadow-xl" 
-                : "bg-gradient-to-br from-rose-100 to-gray-100 dark:from-gray-800 dark:to-gray-900 shadow-lg"
+              className={`max-w-sm p-8 hover:scale-105 transition-all duration-500 ${
+                card.isHighlighted
+                  ? "bg-gradient-to-br from-rose-200 to-gray-200 dark:from-gray-700 dark:to-gray-900 border-2 border-rose-600 shadow-xl"
+                  : "bg-gradient-to-br from-rose-50 to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-lg"
               } rounded-2xl`}
             >
               <CardHeader>
-                <CardTitle className="text-3xl font-bold">{card.title}</CardTitle>
+                <CardTitle className="text-3xl font-bold">
+                  {card.title}
+                </CardTitle>
                 <p className="mt-4 text-xl">{card.price}</p>
               </CardHeader>
               <CardContent className="mt-6 space-y-4">
