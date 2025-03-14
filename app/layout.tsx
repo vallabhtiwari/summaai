@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Source_Sans_3 as Sans3 } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 const sans = Sans3({
   variable: "--font-sans",
@@ -9,8 +13,8 @@ const sans = Sans3({
 });
 
 export const metadata: Metadata = {
-  title: "Summarry",
-  description: "Summarry is an app to summarize PDF documents",
+  title: "SummaAI",
+  description: "SummaAI is an app to summarize PDF documents",
 };
 
 export default function RootLayout({
@@ -19,10 +23,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${sans.variable} font-sans antialiased`}>
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={`${sans.variable} font-sans antialiased`}>
+          <div className="relative flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Toaster />
+            <Footer />
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
