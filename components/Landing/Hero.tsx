@@ -8,6 +8,44 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
+import React from "react";
+
+type cardContent = {
+  title: string;
+  icon: React.ReactNode;
+  description: string;
+};
+
+const CardIcon = ({ icon }: { icon: React.ReactNode }) => {
+  return (
+    <div className="size-12 mx-auto mb-4 flex items-center justify-center">
+      {React.isValidElement(icon)
+        ? React.cloneElement(icon, {
+            className: "text-rose-600 size-12",
+          } as React.HTMLAttributes<HTMLElement>)
+        : icon}
+    </div>
+  );
+};
+
+const cards: cardContent[] = [
+  {
+    title: "Accurate Summaries",
+    icon: <FileCheck />,
+    description: "Get precise and concise summaries of any PDF document.",
+  },
+  {
+    title: "Time-Saving",
+    icon: <AlarmClockCheck />,
+    description:
+      "Quickly understand lengthy documents without reading them fully.",
+  },
+  {
+    title: "Easy to Use",
+    icon: <ThumbsUp />,
+    description: "Upload your PDF and receive a summary in seconds.",
+  },
+];
 
 export const Hero = () => {
   return (
@@ -41,29 +79,16 @@ export const Hero = () => {
         <div className="container text-center">
           <h2 className="text-3xl font-bold mb-8">Why Choose Summarry?</h2>
           <div className="flex flex-col md:flex-row justify-center items-center gap-8">
-            <div className="max-w-sm p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg">
-              <FileCheck className="size-12 mx-auto text-rose-600 mb-4" />
-              <h3 className="text-xl font-semibold">Accurate Summaries</h3>
-              <p className="mt-4">
-                Get precise and concise summaries of any PDF document.
-              </p>
-            </div>
-
-            <div className="max-w-sm p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg">
-              <AlarmClockCheck className="size-12 mx-auto text-rose-600 mb-4" />
-              <h3 className="text-xl font-semibold">Time-Saving</h3>
-              <p className="mt-4">
-                Quickly understand lengthy documents without reading them fully.
-              </p>
-            </div>
-
-            <div className="max-w-sm p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg">
-              <ThumbsUp className="size-12 mx-auto text-rose-600 mb-4" />
-              <h3 className="text-xl font-semibold">Easy to Use</h3>
-              <p className="mt-4">
-                Upload your PDF and receive a summary in seconds.
-              </p>
-            </div>
+            {cards.map((card) => (
+              <div
+                key={card.title}
+                className="max-w-sm p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg"
+              >
+                <CardIcon icon={card.icon} />
+                <h3 className="text-xl font-semibold">{card.title}</h3>
+                <p className="mt-4">{card.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
