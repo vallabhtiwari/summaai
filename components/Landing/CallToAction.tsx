@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
+import { NavLink } from "../NavLink";
 
 export const CallToAction = () => {
   return (
@@ -15,11 +16,11 @@ export const CallToAction = () => {
             SummaAI.
           </p>
           <div className="w-full flex justify-center mt-10">
-            <a href="#pricing">
+            <NavLink href="/#top">
               <Button className="text-white bg-gradient-to-r from-rose-600 to-black px-12 py-6 text-xl flex items-center gap-2 transition-all duration-500 hover:from-black hover:to-rose-600 rounded-full">
                 Get Started <ArrowRight className="size-6" />
               </Button>
-            </a>
+            </NavLink>
           </div>
         </div>
       </div>

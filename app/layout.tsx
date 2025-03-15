@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
+import GradientAI from "@/components/Gradient";
 
 const sans = Sans3({
   variable: "--font-sans",
@@ -28,7 +29,8 @@ export default function RootLayout({
         <body className={`${sans.variable} font-sans antialiased`}>
           <div className="relative flex flex-col min-h-screen">
             <Header />
-            <main className="flex-1">{children}</main>
+            <GradientAI />
+            <main className="flex-1 pt-20 relative">{children}</main>
             <Toaster />
             <Footer />
           </div>

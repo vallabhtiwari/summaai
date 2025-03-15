@@ -39,7 +39,7 @@ export const Pricing = () => {
       id="pricing"
       className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200"
     >
-      <div className="container mx-auto px-4 py-16 text-center">
+      <div className="container mx-auto px-4 py-24 text-center">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-12">
           Choose Your Plan
         </h1>

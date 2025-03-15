@@ -1,11 +1,4 @@
-import { Badge } from "@/components/ui/badge";
-import {
-  Sparkles,
-  AlarmClockCheck,
-  FileCheck,
-  ThumbsUp,
-  ArrowRight,
-} from "lucide-react";
+import { AlarmClockCheck, FileCheck, ThumbsUp, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
 import React from "react";
@@ -50,7 +43,7 @@ const cards: cardContent[] = [
 export const Hero = () => {
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
-      <main className="container mx-auto px-4 py-16 text-center">
+      <main className=" container mx-auto px-4 py-16 text-center">
         <div className="max-w-3xl mx-auto">
           <PoweredByAIBadge />
           <h1 className="leading-tight">AI-Powered PDF Summarizer</h1>
@@ -68,7 +61,7 @@ export const Hero = () => {
         </div>
       </main>
 
-      <section className="py-16">
+      <section className=" py-16">
         <div className="container text-center">
           <h2 className="text-3xl font-bold mb-8">Why Choose SummaAI?</h2>
           <div className="flex flex-col md:flex-row justify-center items-center gap-8">
