@@ -1,12 +1,16 @@
 "use client";
 
-import { FileText, ArrowRight, Upload } from "lucide-react";
+import { FileText, ArrowRight, Upload, Loader } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useUploadThing } from "@/lib/uploadthing";
-import { uploadPdfSchema } from "@/lib/types";
-import { toast } from "sonner";
-import { parseSummarize } from "@/app/actions/parse-summarize";
+import {
+  validatePdfFile,
+  formatFileSizeMB,
+  handleUploadComplete,
+  handleUploadError,
+  handleUploadBegin,
+} from "@/lib/utils";
 
 export const UploadFile = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -15,21 +19,8 @@ export const UploadFile = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const safeFile = uploadPdfSchema.safeParse({ file });
-      if (!safeFile.success) {
-        toast.error("Invalid file type", {
-          description: "Please upload a PDF file",
-          position: "top-right",
-          duration: 4000,
-          cancel: {
-            label: "X",
-            onClick: () => setFile(null),
-          },
-        });
-        return;
-      }
-      setFile(file);
+      const selectedFile = e.target.files[0];
+      validatePdfFile({ file: selectedFile, setFile });
     }
   };
 
@@ -47,63 +38,21 @@ export const UploadFile = () => {
     e.preventDefault();
     setDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const file = e.dataTransfer.files[0];
-      const safeFile = uploadPdfSchema.safeParse({ file });
-      if (!safeFile.success) {
-        toast.error("Invalid file type", {
-          description: "Please upload a PDF file",
-          position: "top-right",
-          duration: 4000,
-          cancel: {
-            label: "X",
-            onClick: () => setFile(null),
-          },
-        });
-        return;
-      }
-      setFile(file);
+      const droppedFile = e.dataTransfer.files[0];
+      validatePdfFile({ file: droppedFile, setFile });
     }
   };
 
-  const { startUpload, routeConfig } = useUploadThing("pdfUploader", {
+  const { startUpload } = useUploadThing("pdfUploader", {
     onClientUploadComplete: async (obj) => {
-      console.log("Upload complete:", obj);
-      setUploading(false);
-      setFile(null);
-
-      if (obj && obj.length > 0) {
-        const fileData = obj[0];
-        const fileUrl = fileData.ufsUrl;
-
-        const text = await parseSummarize(fileUrl);
-        console.log(text);
-      }
-      toast.success("Upload complete", {
-        position: "top-right",
-        duration: 4000,
-        cancel: {
-          label: "X",
-          onClick: () => console.log("Upload complete!"),
-        },
-      });
+      const result = await handleUploadComplete({ obj, setUploading, setFile });
+      console.log("result", result);
     },
     onUploadError: (obj) => {
-      console.error("Upload failed:", obj);
-      setUploading(false);
-      setFile(null);
-      toast.error("Upload failed", {
-        description: "Please try again later",
-        position: "top-right",
-        duration: 4000,
-        cancel: {
-          label: "X",
-          onClick: () => console.log("Upload failed!"),
-        },
-      });
+      handleUploadError({ obj, setUploading, setFile });
     },
     onUploadBegin: (obj) => {
-      setUploading(true);
-      console.log("Upload has begun", obj);
+      handleUploadBegin({ obj, setUploading });
     },
   });
 
@@ -124,7 +73,7 @@ export const UploadFile = () => {
             <FileText size={64} className="text-rose-600 mb-4" />
             <p className="text-xl font-medium mb-2">{file.name}</p>
             <p className="text-gray-500 dark:text-gray-400 mb-6">
-              {(file.size / (1024 * 1024)).toFixed(2)} MB
+              {formatFileSizeMB(file.size)} MB
             </p>
 
             <Button
@@ -132,8 +81,15 @@ export const UploadFile = () => {
               disabled={uploading}
               className="text-white bg-gradient-to-r from-rose-600 to-black px-8 py-4 text-xl flex items-center gap-2 transition-all duration-500 hover:from-black hover:to-rose-600 rounded-full"
             >
-              {uploading ? "Summarizing..." : "Summarize"}{" "}
-              <ArrowRight className="size-5" />
+              {uploading ? (
+                <>
+                  Summarizing... <Loader className="size-4 animate-spin" />
+                </>
+              ) : (
+                <>
+                  Summarize <ArrowRight className="size-5" />
+                </>
+              )}
             </Button>
           </div>
         ) : (
