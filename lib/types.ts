@@ -15,3 +15,29 @@ export const uploadPdfSchema = z.object({
       message: "File must be a PDF",
     }),
 });
+
+// Toast utility types
+export type ToastType = "success" | "error" | "info" | "warning";
+export type ToastOptions = {
+  description?: string;
+  onClick?: () => void;
+  duration?: number;
+};
+
+// File validation types
+export type FileValidationParams = {
+  file: File;
+  setFile: (file: File | null) => void;
+};
+
+// Upload handler types
+export type UploadCompleteParams = {
+  obj: any;
+  setUploading: (value: boolean) => void;
+  setFile: (file: File | null) => void;
+};
+
+export type UploadBeginParams = {
+  obj: any;
+  setUploading: (value: boolean) => void;
+};
