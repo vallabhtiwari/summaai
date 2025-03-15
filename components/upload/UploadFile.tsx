@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useUploadThing } from "@/lib/uploadthing";
 import { uploadPdfSchema } from "@/lib/types";
 import { toast } from "sonner";
+import { parseSummarize } from "@/app/actions/parse-summarize";
 
 export const UploadFile = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -65,10 +66,18 @@ export const UploadFile = () => {
   };
 
   const { startUpload, routeConfig } = useUploadThing("pdfUploader", {
-    onClientUploadComplete: (obj) => {
+    onClientUploadComplete: async (obj) => {
       console.log("Upload complete:", obj);
       setUploading(false);
       setFile(null);
+
+      if (obj && obj.length > 0) {
+        const fileData = obj[0];
+        const fileUrl = fileData.ufsUrl;
+
+        const text = await parseSummarize(fileUrl);
+        console.log(text);
+      }
       toast.success("Upload complete", {
         position: "top-right",
         duration: 4000,
