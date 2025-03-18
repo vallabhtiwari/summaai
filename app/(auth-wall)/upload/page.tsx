@@ -6,7 +6,7 @@ export default function UploadPage() {
   // Server-side function to handle file upload
 
   return (
-    <div className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       <main className="container mx-auto px-4 py-16 text-center">
         <div className="max-w-3xl mx-auto">
           <PoweredByAIBadge />
