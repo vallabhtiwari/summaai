@@ -28,8 +28,8 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${sans.variable} font-sans antialiased`}>
           <div className="relative flex flex-col min-h-screen">
-            <Header />
             <GradientAI />
+            <Header />
             <main className="flex-1 pt-20 relative">{children}</main>
             <Toaster />
             <Footer />
