@@ -3,6 +3,8 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import OpenAI from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { SYSTEM_PROMPT, USER_PROMPT } from "@/lib/prompts";
+import { auth } from "@clerk/nextjs/server";
+import { prisma } from "@/lib/prisma";
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -10,39 +12,35 @@ const client = new OpenAI({
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
-export const getSummary = async (fileUrl: string) => {
+export const getSummary = async (
+  title: string,
+  fileUrl: string,
+  fileName: string
+) => {
   if (!fileUrl) {
     return {
       success: false,
       message: "Error in parsing PDF",
     };
   }
+  const { userId } = await auth();
+  if (!userId) throw new Error("User not found");
 
-  let text = "";
+  let text;
+  let summary;
+
   try {
     const response = await fetch(fileUrl);
     const blob = await response.blob();
     text = await parsePdf(blob);
-    const summary = await generateSummaryOpenAI(text);
-    console.log(typeof summary);
-    // if (!summary || summary === "") {
-    //   return {
-    //     success: false,
-    //     message: "Error in generating summary",
-    //   };
-    // }
-
-    return {
-      success: true,
-      summary: summary,
-    };
+    if (text && text.trim() !== "") {
+      summary = await generateSummaryOpenAI(text);
+    }
   } catch (error) {
     try {
-      const summary = await generateSummaryGoogle(text);
-      return {
-        success: true,
-        summary: summary,
-      };
+      if (text && text.trim() !== "") {
+        summary = await generateSummaryGoogle(text);
+      }
     } catch (error) {
       return {
         success: false,
@@ -50,6 +48,29 @@ export const getSummary = async (fileUrl: string) => {
       };
     }
   }
+
+  if (!summary || summary.trim() === "") {
+    return {
+      success: false,
+      message: "Error in generating summary",
+    };
+  }
+
+  // await prisma.pdfSummary.create({
+  //   data: {
+  //     title: title,
+  //     summaryText: summary,
+  //     originalFileUrl: fileUrl,
+  //     status: "success",
+  //     fileName: fileName,
+  //     userId: userId,
+  //   },
+  // });
+
+  return {
+    success: true,
+    summary: summary,
+  };
 };
 
 export async function parsePdf(blob: Blob) {
@@ -76,7 +97,7 @@ export async function generateSummaryOpenAI(text: string) {
     temperature: 0.7,
     max_tokens: 1500,
   });
-  return completion.choices[0].message;
+  return completion.choices[0].message.content;
 }
 
 export async function generateSummaryGoogle(text: string) {
