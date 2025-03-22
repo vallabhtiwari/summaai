@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 export const uploadPdfSchema = z.object({
   file: z
     .instanceof(File, {
@@ -31,8 +30,8 @@ export type FileValidationParams = {
 };
 
 // Upload handler types
-export type UploadCompleteParams = {
-  obj: any;
+export type UploadCompleteParams<TServerOutput> = {
+  obj: UploadFileResponse<TServerOutput>[];
   setUploading: (value: boolean) => void;
   setFile: (file: File | null) => void;
 };
@@ -40,4 +39,19 @@ export type UploadCompleteParams = {
 export type UploadBeginParams = {
   obj: any;
   setUploading: (value: boolean) => void;
+};
+
+export type UploadFileResponse<TServerOutput> = {
+  name: string;
+  size: number;
+  key: string;
+  url: string;
+  ufsUrl: string;
+  customId: string | null;
+  serverData: TServerOutput;
+};
+
+export type MyServerOutput = {
+  uploadedBy: string;
+  fileUrl: string;
 };

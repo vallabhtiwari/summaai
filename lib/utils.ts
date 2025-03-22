@@ -8,8 +8,10 @@ import {
   FileValidationParams,
   UploadCompleteParams,
   UploadBeginParams,
+  MyServerOutput,
 } from "@/lib/types";
-import { getSummary } from "@/app/actions/parse-summarize";
+
+import { getSummary } from "@/app/actions/pdfSummarryAction";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -67,23 +69,23 @@ export const validatePdfFile = ({
   return true;
 };
 
-// Upload handler functions for useUploadThing
-
 export const handleUploadComplete = async ({
   obj,
   setUploading,
   setFile,
-}: UploadCompleteParams) => {
+}: UploadCompleteParams<MyServerOutput>) => {
   console.log("In handleUploadComplete");
   if (obj && obj.length > 0) {
-    const fileData = obj[0];
-    const fileUrl = fileData.ufsUrl;
-
     try {
-      const summary = await getSummary(fileUrl);
-      if (!summary.success) throw new Error(summary.message);
+      const fileData = obj[0];
+      const fileUrl = fileData.ufsUrl;
+      const fileName = fileData.name;
 
-      showToast("success", "Upload complete", {
+      const summary = await getSummary("test-title", fileUrl, fileName);
+      if (!summary.success || !summary.summary)
+        throw new Error(summary.message);
+
+      showToast("success", "✨Upload complete", {
         description: "Your summary is ready to share",
       });
       setUploading(false);
@@ -98,11 +100,8 @@ export const handleUploadComplete = async ({
   }
 };
 
-export const handleUploadError = ({
-  obj,
-  setUploading,
-  setFile,
-}: UploadCompleteParams) => {
+export const handleUploadError = ({ obj, setUploading, setFile }: any) => {
+  console.log("In handleUploadError", obj);
   showToast("error", "Upload failed", {
     description: "Please try again later",
   });
