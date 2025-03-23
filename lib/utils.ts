@@ -122,3 +122,13 @@ export const handleUploadBegin = ({ obj, setUploading }: UploadBeginParams) => {
 export const formatFileSizeMB = (bytes: number): string => {
   return (bytes / (1024 * 1024)).toFixed(2);
 };
+
+export const numberOfWords = (text: string): number => {
+  const words = text.trim().split(/\s+/);
+  return text.trim() ? words.length : 0;
+};
+
+export const timeToRead = (text: string): number => {
+  const words = numberOfWords(text);
+  return Math.ceil(words / 100);
+};
