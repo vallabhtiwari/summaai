@@ -32,7 +32,7 @@ export default function Dashboard() {
               <div className="w-fit mb-8 bg-rose-100 dark:bg-gray-800 border border-rose-300 dark:border-gray-700 rounded-md px-2 py-1 text-center">
                 You have reached the limit of 5 PDFs in the free plan.
                 <Link
-                  href="/pricing"
+                  href="/#pricing"
                   className="mx-1 text-rose-600 font-semibold underline"
                 >
                   Click here

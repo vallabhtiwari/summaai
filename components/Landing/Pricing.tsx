@@ -21,7 +21,7 @@ const pricingCards: PricingCardContent[] = [
   },
   {
     title: "Pro",
-    price: "$29.99/month",
+    price: "$19.99/month",
     features: [
       "50 PDF Summaries/Month",
       "Pro Summaries",
@@ -51,7 +51,7 @@ export const Pricing = () => {
               className={`max-w-sm p-8 hover:scale-105 transition-all duration-500 ${
                 card.isHighlighted
                   ? "bg-gradient-to-br from-rose-200 to-gray-200 dark:from-gray-700 dark:to-gray-900 border-2 border-rose-600 shadow-xl"
-                  : "bg-gradient-to-br from-rose-50 to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-lg"
+                  : "bg-gradient-to-br from-rose-50 to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-gray-300 dark:border-gray-700 shadow-lg"
               } rounded-2xl`}
             >
               <CardHeader>

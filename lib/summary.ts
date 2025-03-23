@@ -99,6 +99,31 @@ Self-executing contracts automate and enforce agreements without intermediaries.
 Blockchain promises secure, transparent systems for industries ranging from finance to healthcare.
     `,
   },
+  {
+    id: "5",
+    title: "Blockchain Basics",
+    createdAt: "March 5, 2025",
+    fileName: "Blockchain Basics.pdf",
+    original: "Dummy original text",
+    summary: `
+## 🔗 Blockchain Basics
+
+### 1. What is Blockchain?
+A decentralized digital ledger that records transactions securely across multiple computers.
+
+### 2. Key Features
+Immutability, transparency, and decentralization make blockchain resistant to tampering and censorship.
+
+### 3. Use Cases
+Beyond cryptocurrencies, blockchain is used in supply chains, digital identity verification, and voting systems.
+
+### 4. Smart Contracts
+Self-executing contracts automate and enforce agreements without intermediaries.
+
+### 5. Future Potential
+Blockchain promises secure, transparent systems for industries ranging from finance to healthcare.
+    `,
+  },
 ];
 
 export const getSummary = async (id: string) => {

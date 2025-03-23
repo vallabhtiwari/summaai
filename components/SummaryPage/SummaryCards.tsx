@@ -19,7 +19,7 @@ export default function SummaryCards({ summary }: { summary: string }) {
   };
 
   return (
-    <Card className="min-h-96 p-4 max-w-xl mx-auto bg-white border-none flex flex-col">
+    <Card className="min-h-96 p-4 max-w-xl mx-auto bg-white border-none flex flex-col shadow-lg">
       <CardContent className="flex-1 flex flex-col justify-between">
         <h1 className="text-2xl font-bold mb-4">{sections[currentSection]}</h1>
 
