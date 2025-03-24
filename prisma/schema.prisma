@@ -29,16 +29,15 @@ model User {
 
 model PdfSummary {
   id              String   @id @default(uuid())
-  userId          String
   originalFileUrl String
   summaryText     String
   status          String
-  title           String
   fileName        String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  userEmail       String
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 }
 
 model Payment {
@@ -47,10 +46,9 @@ model Payment {
   status          String
   stripePaymentId String
   priceId         String
-  userId          String
-  userEmail       String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  userEmail       String
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 }

@@ -31,7 +31,6 @@ export const handleCheckoutSession = async ({
           status: session.status!,
           stripePaymentId: session.id,
           priceId: session.line_items?.data[0].price?.id!,
-          userId: user.id,
           userEmail: customer.email!,
         });
       }
@@ -101,14 +100,12 @@ export const createPayment = async ({
   status,
   stripePaymentId,
   priceId,
-  userId,
   userEmail,
 }: {
   amount: number;
   status: string;
   stripePaymentId: string;
   priceId: string;
-  userId: string;
   userEmail: string;
 }) => {
   try {
@@ -118,7 +115,6 @@ export const createPayment = async ({
         status: status,
         stripePaymentId: stripePaymentId,
         priceId: priceId,
-        userId: userId,
         userEmail: userEmail,
       },
     });
