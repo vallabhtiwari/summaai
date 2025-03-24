@@ -3,7 +3,7 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import OpenAI from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { SYSTEM_PROMPT, USER_PROMPT } from "@/lib/prompts";
-import { auth } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
 const client = new OpenAI({
@@ -19,8 +19,8 @@ export const getSummary = async (fileUrl: string, fileName: string) => {
       message: "Error in parsing PDF",
     };
   }
-  const { userId } = await auth();
-  if (!userId) throw new Error("User not found");
+  const user = await currentUser();
+  if (!user) throw new Error("User not found");
 
   let text;
   let summary;
@@ -52,20 +52,29 @@ export const getSummary = async (fileUrl: string, fileName: string) => {
     };
   }
 
-  // await prisma.pdfSummary.create({
-  //   data: {
-  //     title: title,
-  //     summaryText: summary,
-  //     originalFileUrl: fileUrl,
-  //     status: "success",
-  //     fileName: fileName,
-  //     userId: userId,
-  //   },
-  // });
+  let summaryId;
+  try {
+    const summaryDB = await prisma.pdfSummary.create({
+      data: {
+        summaryText: summary,
+        originalFileUrl: fileUrl,
+        status: "success",
+        fileName: fileName,
+        userEmail: user.emailAddresses[0].emailAddress!,
+      },
+    });
+    summaryId = summaryDB.id;
+  } catch (error) {
+    return {
+      success: false,
+      message: "Error in saving summary",
+    };
+  }
 
   return {
     success: true,
     summary: summary,
+    summaryId: summaryId,
   };
 };
 

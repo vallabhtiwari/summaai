@@ -90,7 +90,7 @@ export const handleUploadComplete = async ({
       });
       setUploading(false);
       setFile(null);
-      return summary;
+      return summary.summaryId;
     } catch (error) {
       console.error("Error getting summary:", error);
       showToast("error", "Error getting summary", {
@@ -98,6 +98,7 @@ export const handleUploadComplete = async ({
       });
     }
   }
+  return null;
 };
 
 export const handleUploadError = ({ obj, setUploading, setFile }: any) => {

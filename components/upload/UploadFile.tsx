@@ -46,7 +46,6 @@ export const UploadFile = () => {
   const { startUpload } = useUploadThing("pdfUploader", {
     onClientUploadComplete: async (obj) => {
       const result = await handleUploadComplete({ obj, setUploading, setFile });
-      console.log("result", result);
     },
     onUploadError: (obj) => {
       handleUploadError({ obj, setUploading, setFile });
