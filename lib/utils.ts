@@ -81,7 +81,7 @@ export const handleUploadComplete = async ({
       const fileUrl = fileData.ufsUrl;
       const fileName = fileData.name;
 
-      const summary = await getSummary("test-title", fileUrl, fileName);
+      const summary = await getSummary(fileUrl, fileName);
       if (!summary.success || !summary.summary)
         throw new Error(summary.message);
 

@@ -12,11 +12,7 @@ const client = new OpenAI({
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
-export const getSummary = async (
-  title: string,
-  fileUrl: string,
-  fileName: string
-) => {
+export const getSummary = async (fileUrl: string, fileName: string) => {
   if (!fileUrl) {
     return {
       success: false,
