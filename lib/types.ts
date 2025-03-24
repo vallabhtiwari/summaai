@@ -55,3 +55,13 @@ export type MyServerOutput = {
   uploadedBy: string;
   fileUrl: string;
 };
+
+export interface SummarySection {
+  subheading: string;
+  points: string[];
+}
+
+export interface ParsedSummaryOutput {
+  mainHeading: string;
+  sections: SummarySection[];
+}
