@@ -1,3 +1,5 @@
+import { ParsedSummaryOutput, SummarySection } from "@/lib/types";
+
 export const summaries = [
   {
     id: "1",
@@ -129,3 +131,38 @@ Blockchain promises secure, transparent systems for industries ranging from fina
 export const getSummary = async (id: string) => {
   return summaries.find((summary) => summary.id === id);
 };
+
+export function parseSummary(input: string): ParsedSummaryOutput {
+  const sections: SummarySection[] = [];
+
+  // Split by '#' to get headings and content
+  let parts = input.split("#").filter((part) => part.trim());
+
+  // Extract the main heading
+  let mainHeading =
+    parts
+      .shift()
+      ?.replace(/^[\#\s]+/, "")
+      .trim() || "";
+
+  parts.forEach((part) => {
+    // Extract section content
+    let lines = part.trim().split("\n");
+    let subheading =
+      lines
+        .shift()
+        ?.replace(/^[\#\s]+/, "")
+        .trim() || "";
+    let cleanLines = lines.map((line) => line.replace(/^[\*\s]+/, "").trim());
+    sections.push({
+      subheading,
+      points: cleanLines,
+    });
+  });
+
+  const cleanSections = sections.filter(
+    (section) => section.points.length > 0 && section.subheading
+  );
+
+  return { mainHeading, sections: cleanSections };
+}
