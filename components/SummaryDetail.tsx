@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,45 +12,49 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import Link from "next/link";
+import { deleteSummary } from "@/app/actions/pdfSummarryAction";
 export const SummaryDetail = ({
   id,
   title,
   createdAt,
   summary,
-  onDelete,
 }: {
   id: string;
   title: string;
   createdAt: string;
   summary: string;
-  onDelete: () => void;
 }) => {
+  const onDelete = async (id: string) => {
+    await deleteSummary(id);
+  };
   return (
-    <Link href={`/summary/${id}`}>
-      <Card className="p-5 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 relative flex flex-col h-full hover:shadow-lg hover:border-rose-600 dark:hover:border-rose-800/40 transition-all duration-300 hover:scale-[1.03] cursor-pointer group">
-        <CardHeader className="pb-1 px-2">
-          <div className="flex items-start justify-between w-full">
-            <div className="flex items-start gap-3.5">
-              <FileText className="size-7 text-rose-500 flex-shrink-0 group-hover:text-rose-600 transition-colors" />
-              <div>
-                <CardTitle className="text-xl font-semibold truncate text-gray-800 dark:text-gray-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
-                  {title}
-                </CardTitle>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-300 mt-1">
-                  {createdAt}
-                </p>
-              </div>
+    <Card className="p-5 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 relative flex flex-col h-full hover:shadow-lg hover:border-rose-600 dark:hover:border-rose-800/40 transition-all duration-300 hover:scale-[1.03] group">
+      <CardHeader className="pb-1 px-2">
+        <div className="flex items-start justify-between w-full">
+          <div className="flex items-start gap-3.5">
+            <FileText className="size-7 text-rose-500 flex-shrink-0 group-hover:text-rose-600 transition-colors" />
+            <div>
+              <CardTitle className="text-xl font-semibold truncate text-gray-800 dark:text-gray-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+                {`${title.substring(0, 30).trim()}...`}
+              </CardTitle>
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-300 mt-1">
+                {createdAt}
+              </p>
             </div>
-            <DeleteButton onConfirm={onDelete} />
           </div>
-        </CardHeader>
-        <CardContent className="flex-grow flex flex-col px-2">
+          <div className="flex-shrink-0">
+            <DeleteButton onConfirm={() => onDelete(id)} />
+          </div>
+        </div>
+      </CardHeader>
+      <Link href={`/summary/${id}`}>
+        <CardContent className="flex-grow flex flex-col px-2 cursor-pointer">
           <p className="text-gray-700 dark:text-gray-200 text-base leading-relaxed line-clamp-4 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
-            {summary}
+            {summary.replaceAll("#", "")}
           </p>
         </CardContent>
-      </Card>
-    </Link>
+      </Link>
+    </Card>
   );
 };
 
@@ -79,7 +84,10 @@ const DeleteButton = ({ onConfirm }: { onConfirm: () => void }) => {
             Cancel
           </Button>
           <Button
-            onClick={onConfirm}
+            onClick={() => {
+              onConfirm();
+              setOpen(false);
+            }}
             className="bg-rose-500 hover:bg-rose-600 text-white"
           >
             Delete
