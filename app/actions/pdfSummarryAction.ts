@@ -5,6 +5,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { SYSTEM_PROMPT, USER_PROMPT } from "@/lib/prompts";
 import { currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -124,4 +125,32 @@ export async function generateSummaryGoogle(text: string) {
   const summary = response.text();
 
   return summary;
+}
+
+export async function getUserSummaries() {
+  const user = await currentUser();
+  if (!user) return [];
+  return await prisma.pdfSummary.findMany({
+    where: {
+      userEmail: user.emailAddresses[0].emailAddress!,
+    },
+  });
+}
+
+export async function getSummaryById(id: string) {
+  const user = await currentUser();
+  if (!user) return null;
+  return await prisma.pdfSummary.findUnique({
+    where: { id },
+  });
+}
+
+export async function deleteSummary(id: string) {
+  const user = await currentUser();
+  if (!user) return;
+  await prisma.pdfSummary.delete({
+    where: { id },
+  });
+
+  revalidatePath("/dashboard");
 }
