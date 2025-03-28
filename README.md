@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SummaAI - PDF Summarizing SaaS
 
-## Getting Started
+## 🚀 Overview
 
-First, run the development server:
+SummaAI is a powerful web application that allows users to quickly generate concise summaries of PDF documents using AI. Built with modern technologies, it provides a seamless experience for users looking to extract key insights from lengthy PDFs.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js** – For a fast and efficient frontend and backend framework.
+- **Clerk** – Handles user authentication seamlessly.
+- **LangChain** – Manages AI-powered processing of PDF content.
+- **Gemini** – Provides advanced language models for accurate summarization.
+- **Stripe** – Enables secure payments and subscription management.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 📄 Upload PDFs and receive AI-generated summaries instantly.
+- 🔒 Secure authentication with Clerk.
+- 🎯 Accurate summarization using LangChain and Gemini AI.
+- 💳 Subscription-based model with Stripe integration.
+- 📊 User-friendly dashboard for managing summaries.
+- 🌐 Responsive design for desktop and mobile.
 
-## Learn More
+## 📸 Screenshots
 
-To learn more about Next.js, take a look at the following resources:
+![Landing Page](./images/landing.png)
+**Landing Page** – A sleek and inviting homepage.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![Upload Page](./images/upload.png)
+**Upload Page** – Upload your PDF document.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![Dashboard](./images/dashboard.png)
+**Dashboard** – View and manage all your summaries.
 
-## Deploy on Vercel
+![Summary Page](./images/summary.png)
+**Summary Page** – Display AI-generated PDF summaries.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Plans Page](./images/plans.png)
+**Plans Page** – Choose basic or pro plan.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 Installation & Setup
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/vallabhtiwari/summaai.git
+   cd summaai
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Set up environment variables:
+   ```sh
+   cp .env.example .env
+   ```
+   Update the `.env` file with the necessary API keys.
+4. Start the development server:
+   ```sh
+   npm run dev
+   ```
