@@ -11,11 +11,13 @@ import {
   handleUploadError,
   handleUploadBegin,
 } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export const UploadFile = () => {
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const router = useRouter();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -46,6 +48,9 @@ export const UploadFile = () => {
   const { startUpload } = useUploadThing("pdfUploader", {
     onClientUploadComplete: async (obj) => {
       const result = await handleUploadComplete({ obj, setUploading, setFile });
+      if (result) {
+        router.push(`/dashboard`);
+      }
     },
     onUploadError: (obj) => {
       handleUploadError({ obj, setUploading, setFile });
